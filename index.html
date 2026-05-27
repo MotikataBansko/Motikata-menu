@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мотиката | Меню • Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --parchment: #f5ede0;
+    --parchment-dark: #e8d9c4;
+    --gold: #8b6914;
+    --gold-light: #c9a84c;
+    --rust: #7a3b1e;
+    --green: #2d4a2d;
+    --divider: #c9a84c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #2a1f0e;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--parchment);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(201,168,76,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(122,59,30,0.06) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    box-shadow: 0 0 80px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Ensure content doesn't clip on mobile */
+  .border-frame-inner { overflow-x: hidden; }
+
+  /* Corner ornaments */
+  .page-wrapper::before, .page-wrapper::after {
+    content: '';
+    position: absolute;
+    width: 120px; height: 120px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M5,5 Q50,5 95,5 Q95,50 95,95' stroke='%23c9a84c' stroke-width='1.5' fill='none' opacity='0.5'/%3E%3Cpath d='M15,5 Q15,50 15,95' stroke='%23c9a84c' stroke-width='0.5' fill='none' opacity='0.3'/%3E%3Ccircle cx='10' cy='10' r='4' stroke='%23c9a84c' stroke-width='1' fill='none' opacity='0.5'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23c9a84c' opacity='0.5'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 1;
+  }
+  .page-wrapper::before { top: 0; left: 0; }
+  .page-wrapper::after { bottom: 0; right: 0; transform: rotate(180deg); }
+
+  .border-frame {
+    border: 1px solid rgba(201,168,76,0.3);
+    margin: 16px;
+    padding: 0;
+    position: relative;
+  }
+  .border-frame-inner {
+    border: 1px solid rgba(201,168,76,0.15);
+    margin: 6px;
+    padding: 32px 40px 40px;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding-bottom: 28px;
+    position: relative;
+  }
+
+  .header-bilingual {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+  }
+  .header-side {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-align: center;
+    line-height: 1.8;
+    flex: 1;
+  }
+  .header-side span { display: block; font-size: 9px; color: var(--rust); opacity: 0.8; }
+
+  .logo-center {
+    flex: 1.5;
+    text-align: center;
+  }
+  .logo-icon {
+    font-size: 40px;
+    line-height: 1;
+    margin-bottom: 4px;
+    display: block;
+    filter: sepia(1) saturate(0.5);
+  }
+  .logo-name {
+    font-family: 'Cinzel', serif;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    color: var(--ink);
+    text-transform: uppercase;
+    display: block;
+    line-height: 1;
+  }
+  .logo-sub {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .divider-ornament {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0 8px;
+    color: var(--gold-light);
+  }
+  .divider-ornament::before, .divider-ornament::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-light), transparent);
+  }
+  .divider-ornament span { font-size: 18px; opacity: 0.7; }
+
+  .address-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11.5px;
+    color: var(--rust);
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+
+  /* SECTION */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 48px;
+  }
+  .menu-col { }
+
+  .section {
+    margin-bottom: 24px;
+  }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--green);
+    text-align: center;
+    text-transform: uppercase;
+    padding: 6px 0 4px;
+    border-top: 1px solid rgba(201,168,76,0.4);
+    border-bottom: 1px solid rgba(201,168,76,0.4);
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .section-title .en {
+    display: block;
+    font-size: 9px;
+    font-weight: 400;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    margin-top: 2px;
+    font-style: italic;
+    font-family: 'IM Fell English', serif;
+  }
+
+  /* ITEM */
+  .item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 8px;
+    margin-bottom: 10px;
+    align-items: start;
+    position: relative;
+  }
+  .item::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, rgba(201,168,76,0.15), transparent);
+  }
+  .item:last-child::after { display: none; }
+
+  .item-name-bg {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .item-name-en {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--rust);
+    opacity: 0.85;
+    display: block;
+    line-height: 1.3;
+    grid-column: 1;
+  }
+  .item-desc {
+    font-size: 10.5px;
+    color: #6b5a3e;
+    line-height: 1.35;
+    display: block;
+    grid-column: 1;
+    margin-top: 1px;
+  }
+  .item-weight {
+    font-size: 10px;
+    color: #999;
+    display: block;
+    grid-column: 1;
+  }
+
+  .item-price {
+    text-align: right;
+    grid-row: 1 / 3;
+    grid-column: 2;
+    white-space: nowrap;
+  }
+  .price-eur {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green);
+    display: block;
+  }
+  .price-bgn {
+    font-size: 10px;
+    color: var(--gold);
+    display: block;
+  }
+
+  .allergen {
+    font-size: 9px;
+    color: var(--rust);
+    opacity: 0.6;
+    grid-column: 1;
+  }
+
+  /* full-width section */
+  .section-full {
+    grid-column: 1 / -1;
+  }
+
+  .drinks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0 40px;
+  }
+
+  .subsection-title {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--rust);
+    text-align: center;
+    margin: 10px 0 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-size: 9.5px;
+    color: #8b7355;
+    line-height: 1.6;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(201,168,76,0.3);
+    font-style: italic;
+  }
+
+  .legend-box {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 10px 14px;
+    margin-top: 16px;
+    grid-column: 1 / -1;
+  }
+  .legend-title {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    color: var(--gold);
+    margin-bottom: 6px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .legend-text {
+    font-size: 9.5px;
+    color: #7a6540;
+    line-height: 1.6;
+  }
+
+  /* Tablet */
+  @media (max-width: 768px) {
+    .drinks-grid { grid-template-columns: 1fr 1fr; gap: 0 24px; }
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    body { padding: 8px; }
+    .border-frame { margin: 8px; }
+    .border-frame-inner { padding: 16px 12px 24px; }
+    .menu-grid { grid-template-columns: 1fr; gap: 0; }
+    .drinks-grid { grid-template-columns: 1fr !important; gap: 0; }
+    .section-full { grid-column: 1; }
+    .logo-name { font-size: 24px; }
+    .header-bilingual { flex-direction: column; align-items: center; gap: 8px; }
+    .header-side { font-size: 10px; }
+
+    /* Hide corner ornaments on mobile - they render as stray lines */
+    .page-wrapper::before,
+    .page-wrapper::after {
+      display: none;
+    }
+
+    /* Force ALL inline grid layouts to single column on mobile */
+    .section-full > div[style*="grid-template-columns"] {
+      grid-template-columns: 1fr !important;
+      gap: 0 !important;
+    }
+
+    /* Ensure items never overflow */
+    .item {
+      grid-template-columns: 1fr auto;
+      min-width: 0;
+    }
+    .item > div:first-child {
+      min-width: 0;
+      overflow-wrap: break-word;
+    }
+    .item-name-bg {
+      font-size: 14px;
+    }
+    .item-price {
+      padding-left: 8px;
+    }
+    .price-eur {
+      font-size: 13px;
+    }
+
+    /* Legend box */
+    .legend-box {
+      grid-column: 1;
+    }
+    .legend-text {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* Footer */
+    .footer-note {
+      grid-column: 1 !important;
+      word-wrap: break-word;
+    }
+
+    /* Section titles */
+    .section-title {
+      font-size: 12px;
+    }
+
+    /* Address line */
+    .address-line {
+      font-size: 10.5px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+  <div class="border-frame">
+  <div class="border-frame-inner">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-bilingual">
+        <div class="header-side">
+          МЕНЮ<span>За резервации</span>0898 43 43 44
+        </div>
+        <div class="logo-center">
+          <span class="logo-icon">⚒</span>
+          <span class="logo-name">Мотиката</span>
+          <span class="logo-sub">Банско • Motikata</span>
+        </div>
+        <div class="header-side">
+          MENU<span>For reservations</span>+359 898 43 43 44
+        </div>
+      </div>
+      <div class="divider-ornament"><span>✦</span></div>
+      <div class="address-line">ул. Пирин, Банско • до началната станция на лифта • Открито: Вт–Нд 12:00–00:00</div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="menu-grid">
+
+      <!-- LEFT COLUMN -->
+      <div class="menu-col">
+
+        <!-- САЛАТИ -->
+        <div class="section">
+          <div class="section-title">Салати<span class="en">Salads</span></div>
+
+          <div class="item">
+            <div><span class="item-name-bg">Домашна Туршия</span><span class="item-name-en">Homemade Pickles</span><span class="item-weight">400г</span></div>
+            <div class="item-price"><span class="price-eur">7,60€</span><span class="price-bgn">14,86 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Салата „Мотиката" ✦</span><span class="item-name-en">Motikata Salad</span><span class="item-desc">пържена чушка, домат, прясно сирене, лук, чесън, магданоз<br><em>fried pepper, tomato, fresh cheese, onion, garlic, parsley</em></span><span class="item-weight">400г</span></div>
+            <div class="item-price"><span class="price-eur">8,20€</span><span class="price-bgn">16,04 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Ракиена салата с прясно сирене ✦</span><span class="item-name-en">"Rakia" Salad with fresh cheese</span><span class="item-desc">домати, печени чушки, лук, маслини, прясно сирене<br><em>tomatoes, grilled peppers, onion, olives, fresh cheese</em></span><span class="item-weight">400г</span></div>
+            <div class="item-price"><span class="price-eur">8,60€</span><span class="price-bgn">16,82 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Овчарска салата</span><span class="item-name-en">Shepherd's Salad</span><span class="item-desc">домати, краставици, лук, люта чушка, гъби, яйце, сирене, кашкавал, бански старец, бански бут<br><em>tomatoes, cucumbers, onions, hot peppers, mushrooms, egg, cheese, yellow cheese</em></span><span class="item-weight">500г</span></div>
+            <div class="item-price"><span class="price-eur">10,20€</span><span class="price-bgn">19,95 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Шопска салата ✦</span><span class="item-name-en">Shopska Salad</span><span class="item-desc">домати, краставици, чушки, краве сирене<br><em>tomatoes, cucumbers, peppers, cheese, onion</em></span><span class="item-weight">350г</span></div>
+            <div class="item-price"><span class="price-eur">7,60€</span><span class="price-bgn">14,86 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Чобан салата ✦</span><span class="item-name-en">"Choban" Salad</span><span class="item-desc">домат, краставица, лук, печени чушки, краве сирене, сумак<br><em>tomato, cucumber, onion, grilled pepper, white cheese, sumak</em></span><span class="item-weight">350г</span></div>
+            <div class="item-price"><span class="price-eur">8,20€</span><span class="price-bgn">16,04 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Задушени чушки с плоча овче сирене ✦</span><span class="item-name-en">Sautéed peppers with sheep cheese</span><span class="item-desc">печена чушка, плоча овче сирене<br><em>marinated roasted pepper, cheese</em></span><span class="item-weight">350г</span></div>
+            <div class="item-price"><span class="price-eur">7,60€</span><span class="price-bgn">14,86 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Зелена салата</span><span class="item-name-en">Green Salad</span><span class="item-desc">маруля, репички, краставици, пресен лук<br><em>lettuce, radishes, cucumbers, fresh onion</em></span><span class="item-weight">350г</span></div>
+            <div class="item-price"><span class="price-eur">7,10€</span><span class="price-bgn">13,89 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Салата Витамин</span><span class="item-name-en">Vitamin Salad</span><span class="item-desc">морков, цвекло, целина, ябълка, орехи, мед, горчица<br><em>carrot, beetroot, celery, apple, walnut, honey, mustard</em></span><span class="item-weight">400г</span></div>
+            <div class="item-price"><span class="price-eur">8,20€</span><span class="price-bgn">16,04 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Млечна салата с кисели краставички ✦</span><span class="item-name-en">Yoghurt Salad with pickles</span><span class="item-desc">цедено кисело мляко, кисели краставички, чесън, копър, орехи<br><em>yoghurt, pickles, garlic, fennel, walnuts</em></span><span class="item-weight">200г</span></div>
+            <div class="item-price"><span class="price-eur">6,60€</span><span class="price-bgn">12,91 лв</span></div>
+          </div>
+        </div>
+
+        <!-- СУПИ -->
+        <div class="section">
+          <div class="section-title">Супи<span class="en">Soups</span></div>
+          <div class="item">
+            <div><span class="item-name-bg">Пилешка супа</span><span class="item-name-en">Chicken soup</span><span class="item-weight">300г</span></div>
+            <div class="item-price"><span class="price-eur">3,50€</span><span class="price-bgn">6,85 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Шкембе чорба ✦</span><span class="item-name-en">Tripe soup</span><span class="item-weight">300г</span></div>
+            <div class="item-price"><span class="price-eur">5,10€</span><span class="price-bgn">9,97 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Боб с манатарка</span><span class="item-name-en">Beans soup with porcini</span><span class="item-weight">300г</span></div>
+            <div class="item-price"><span class="price-eur">4,50€</span><span class="price-bgn">8,80 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Таратор</span><span class="item-name-en">Yoghurt & chopped cucumbers soup</span><span class="item-weight">300г</span></div>
+            <div class="item-price"><span class="price-eur">3,10€</span><span class="price-bgn">6,06 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Домашен хляб</span><span class="item-name-en">Homemade bread</span><span class="item-weight">150г</span></div>
+            <div class="item-price"><span class="price-eur">1,60€</span><span class="price-bgn">3,13 лв</span></div>
+          </div>
+        </div>
+
+        <!-- РАЗЯДКИ -->
+        <div class="section">
+          <div class="section-title">Разядки<span class="en">Appetizers</span></div>
+          <div class="item">
+            <div><span class="item-name-bg">Пикантна разядка със сирене ✦</span><span class="item-name-en">Spicy with cheese</span><span class="item-desc">сирене, изпара, чесън, орехи, люта чушка</span><span class="item-weight">300г</span></div>
+            <div class="item-price"><span class="price-eur">5,60€</span><span class="price-bgn">10,95 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Тиквички с Филаделфия ✦</span><span class="item-name-en">Zucchini with Philadelphia</span><span class="item-desc">крема сирене Филаделфия, тиквички, чесън, зехтин, орехи</span><span class="item-weight">300г</span></div>
+            <div class="item-price"><span class="price-eur">6,60€</span><span class="price-bgn">12,90 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Домашна лютеница с праз и сирене ✦</span><span class="item-name-en">Homemade lutenitsa with leek and white cheese</span><span class="item-weight">300г</span></div>
+            <div class="item-price"><span class="price-eur">6,60€</span><span class="price-bgn">12,90 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Домашно приготвено кьопоолу</span><span class="item-name-en">Homemade cold appetizer with eggplant</span><span class="item-desc">патладжан, домати, чушки, чесън, лук</span><span class="item-weight">300г</span></div>
+            <div class="item-price"><span class="price-eur">5,60€</span><span class="price-bgn">10,95 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Разядка Мотиката</span><span class="item-name-en">Motikata Appetizer</span><span class="item-desc">чесън, майонеза, горчица, пилешко филе, краставици</span><span class="item-weight">300г</span></div>
+            <div class="item-price"><span class="price-eur">6,60€</span><span class="price-bgn">12,90 лв</span></div>
+          </div>
+        </div>
+
+      </div><!-- /LEFT -->
+
+      <!-- RIGHT COLUMN -->
+      <div class="menu-col">
+
+        <!-- СУХИ МЕЗЕТА -->
+        <div class="section">
+          <div class="section-title">Домашни Сухи Мезета<span class="en">Homemade Dry Appetizers</span></div>
+          <div class="item">
+            <div><span class="item-name-bg">Бански старец</span><span class="item-name-en">Banski Starets</span><span class="item-weight">100г</span></div>
+            <div class="item-price"><span class="price-eur">6,60€</span><span class="price-bgn">12,90 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Бански бут</span><span class="item-name-en">Banski dry rump</span><span class="item-weight">100г</span></div>
+            <div class="item-price"><span class="price-eur">6,60€</span><span class="price-bgn">12,90 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Сланина</span><span class="item-name-en">Bacon</span><span class="item-weight">100г</span></div>
+            <div class="item-price"><span class="price-eur">5,60€</span><span class="price-bgn">10,95 лв</span></div>
+          </div>
+        </div>
+
+        <!-- СИРЕНА -->
+        <div class="section">
+          <div class="section-title">Сирена<span class="en">Cheese</span></div>
+          <div class="item">
+            <div><span class="item-name-bg">Овче сирене ✦</span><span class="item-name-en">Sheep cheese</span><span class="item-weight">100г</span></div>
+            <div class="item-price"><span class="price-eur">3,60€</span><span class="price-bgn">7,04 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Краве сирене ✦</span><span class="item-name-en">Cow cheese</span><span class="item-weight">100г</span></div>
+            <div class="item-price"><span class="price-eur">2,90€</span><span class="price-bgn">5,67 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Домашно прясно сирене ✦</span><span class="item-name-en">Homemade fresh cheese</span><span class="item-weight">100г</span></div>
+            <div class="item-price"><span class="price-eur">5,10€</span><span class="price-bgn">9,97 лв</span></div>
+          </div>
+        </div>
+
+        <!-- ПРЕДЯСТИЯ -->
+        <div class="section">
+          <div class="section-title">Предястия<span class="en">Starters</span></div>
+          <div class="item">
+            <div><span class="item-name-bg">Мотишки картофи с масло, копър и чесън ✦</span><span class="item-name-en">Motikata Potatoes with butter, dill and garlic</span><span class="item-weight">350г</span></div>
+            <div class="item-price"><span class="price-eur">5,10€</span><span class="price-bgn">9,97 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Пиринска манатарка с масло и свежи билки ✦</span><span class="item-name-en">Pirin Boletus with butter and fresh herbs</span><span class="item-weight">350г</span></div>
+            <div class="item-price"><span class="price-eur">9,20€</span><span class="price-bgn">17,99 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Бански старец с чесън и масло ✦</span><span class="item-name-en">Banski dry sausage baked with garlic and butter</span><span class="item-weight">200г</span></div>
+            <div class="item-price"><span class="price-eur">9,70€</span><span class="price-bgn">18,97 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Телешки език с масло и чесън ✦</span><span class="item-name-en">Beef tongue with butter and garlic</span><span class="item-weight">250г</span></div>
+            <div class="item-price"><span class="price-eur">9,70€</span><span class="price-bgn">18,97 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Запечено домашно сирене с домат, люта чушка и ригън ✦</span><span class="item-name-en">Baked homemade cheese with tomatoes, chilli pepper and oregano</span><span class="item-weight">250г</span></div>
+            <div class="item-price"><span class="price-eur">8,20€</span><span class="price-bgn">16,04 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Запечено сирене с мед и орехи в кори ✦</span><span class="item-name-en">Baked in pastry cheese with honey and walnuts</span><span class="item-weight">250г</span></div>
+            <div class="item-price"><span class="price-eur">8,20€</span><span class="price-bgn">16,04 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Запечен домашен кашкавал със сладко от горски плодове</span><span class="item-name-en">Baked homemade yellow cheese with berry jam</span><span class="item-weight">200г</span></div>
+            <div class="item-price"><span class="price-eur">8,20€</span><span class="price-bgn">16,04 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Качамак със сирене и пържки ✦</span><span class="item-name-en">Hominy with cheese and pork ribs</span><span class="item-weight">500г</span></div>
+            <div class="item-price"><span class="price-eur">10,20€</span><span class="price-bgn">19,95 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Спанак с овче сирене и яйце ✦</span><span class="item-name-en">Steamed spinach with sheep cheese and egg</span><span class="item-weight">350г</span></div>
+            <div class="item-price"><span class="price-eur">7,70€</span><span class="price-bgn">15,06 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Задушени зеленчуци</span><span class="item-name-en">Steamed vegetables</span><span class="item-weight">300г</span></div>
+            <div class="item-price"><span class="price-eur">6,60€</span><span class="price-bgn">12,90 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Домашни пържени картофи</span><span class="item-name-en">Homemade french fries</span><span class="item-weight">350г</span></div>
+            <div class="item-price"><span class="price-eur">4,10€</span><span class="price-bgn">8,02 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Пилешки хапки ✦</span><span class="item-name-en">Chicken nuggets</span><span class="item-weight">300г</span></div>
+            <div class="item-price"><span class="price-eur">8,60€</span><span class="price-bgn">16,82 лв</span></div>
+          </div>
+          <div class="item">
+            <div><span class="item-name-bg">Пилешки сърца с мед</span><span class="item-name-en">Chicken hearts with honey</span><span class="item-weight">250г</span></div>
+            <div class="item-price"><span class="price-eur">7,70€</span><span class="price-bgn">15,06 лв</span></div>
+          </div>
+        </div>
+
+      </div><!-- /RIGHT -->
+
+      <!-- ОСНОВНИ ЯСТИЯ – full width -->
+      <div class="section section-full">
+        <div class="section-title">Основни Ястия<span class="en">Main Dishes</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 48px;">
+          <div>
+            <div class="item">
+              <div><span class="item-name-bg">Свински джолан /обезкостен/ ✦</span><span class="item-name-en">Pork shank /boneless/ – pork shank, pickles, mushrooms and potatoes</span><span class="item-weight">400г</span></div>
+              <div class="item-price"><span class="price-eur">10,20€</span><span class="price-bgn">19,95 лв</span></div>
+            </div>
+            <div class="item">
+              <div><span class="item-name-bg">Трите мотики ✦</span><span class="item-name-en">The three Motiki – pork fillet in sauce with mashed potatoes</span><span class="item-weight">400г</span></div>
+              <div class="item-price"><span class="price-eur">15,30€</span><span class="price-bgn">29,92 лв</span></div>
+            </div>
+            <div class="item">
+              <div><span class="item-name-bg">Свински ребра на фурна с мотишки картофи</span><span class="item-name-en">Baked pork ribs with motikata potatoes</span><span class="item-weight">400г</span></div>
+              <div class="item-price"><span class="price-eur">12,80€</span><span class="price-bgn">25,03 лв</span></div>
+            </div>
+            <div class="item">
+              <div><span class="item-name-bg">Свински хайдушки хапки ✦</span><span class="item-name-en">Haidushki pork nuggets – pork fillet with oregano and butter</span><span class="item-weight">250г</span></div>
+              <div class="item-price"><span class="price-eur">12,80€</span><span class="price-bgn">25,03 лв</span></div>
+            </div>
+            <div class="item">
+              <div><span class="item-name-bg">Свински сугджук с манатарки</span><span class="item-name-en">Pork Sausage with Boletus</span><span class="item-weight">450г</span></div>
+              <div class="item-price"><span class="price-eur">13,20€</span><span class="price-bgn">25,82 лв</span></div>
+            </div>
+            <div class="item">
+              <div><span class="item-name-bg">Бабини клюфтенца ✦</span><span class="item-name-en">Grandma's meatballs – fried pork meatballs with mashed potatoes and sauce</span><span class="item-weight">450г</span></div>
+              <div class="item-price"><span class="price-eur">9,70€</span><span class="price-bgn">18,97 лв</span></div>
+            </div>
+            <div class="item">
+              <div><span class="item-name-bg">Телешки бузи</span><span class="item-name-en">Veal cheeks – veal cheeks, mashed potatoes</span><span class="item-weight">400г</span></div>
+              <div class="item-price"><span class="price-eur">19,40€</span><span class="price-bgn">37,94 лв</span></div>
+            </div>
+            <div class="item">
+              <div><span class="item-name-bg">Телешки ребра с манатарка</span><span class="item-name-en">Veal ribs with porcini mushrooms</span><span class="item-weight">500г</span></div>
+              <div class="item-price"><span class="price-eur">19,90€</span><span class="price-bgn">38,92 лв</span></div>
+            </div>
+            <div class="item">
+              <div><span class="item-name-bg">Пиле с моцарела ✦</span><span class="item-name-en">Chicken with mozzarella – filled chicken fillet with mozzarella, sun-dried tomatoes and mashed potatoes</span><span class="item-weight">400г</span></div>
+              <div class="item-price"><span class="price-eur">12,30€</span><span class="price-bgn">24,06 лв</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="item">
+              <div><span class="item-name-bg">Пилешки шницел с пържени картофи</span><span class="item-name-en">Chicken schnitzel with french fries</span><span class="item-weight">400г</span></div>
+              <div class="item-price"><span class="price-eur">10,20€</span><span class="price-bgn">19,95 лв</span></div>
+            </div>
+            <div class="item">
+              <div><span class="item-name-bg">Накълцано пиле с кисели краставички и топено сирене ✦</span><span class="item-name-en">Chopped chicken with pickles and cream cheese</span><span class="item-weight">450г</span></div>
+              <div class="item-price"><span class="price-eur">10,20€</span><span class="price-bgn">19,95 лв</span></div>
+            </div>
+            <div class="item">
+              <div><span class="item-name-bg">Пъстърва ✦</span><span class="item-name-en">Trout – trout with herbs</span><span class="item-weight">300г</span></div>
+              <div class="item-price"><span class="price-eur">10,70€</span><span class="price-bgn">20,93 лв</span></div>
+            </div>
+            <div class="item">
+              <div><span class="item-name-bg">Печена агнешка плешка с мотишки картофи</span><span class="item-name-en">Roasted lamb shoulder with motikata potatoes</span><span class="item-weight">1000г</span></div>
+              <div class="item-price"><span class="price-eur">46,10€</span><span class="price-bgn">90,16 лв</span></div>
+            </div>
+            <div class="item">
+              <div><span class="item-name-bg">Мотишко плато</span><span class="item-name-en">Motrishko plate – pork sausage, blood sausage, pork meatballs 2pcs, veal meatballs 2pcs, pork ribs, pork neck, pork shish, chicken shish, motikata potatoes</span><span class="item-weight">3000г</span></div>
+              <div class="item-price"><span class="price-eur">102,30€</span><span class="price-bgn">200,08 лв</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- БАРБЕКЮ -->
+      <div class="section section-full">
+        <div class="section-title">Барбекю<span class="en">BBQ</span></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0 32px;">
+          <div>
+            <div class="item"><div><span class="item-name-bg">Свинска вратна пържола</span><span class="item-name-en">Pork neck steak</span><span class="item-weight">300г</span></div><div class="item-price"><span class="price-eur">9,20€</span><span class="price-bgn">17,99 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Кралски котлет с мотишки картофи</span><span class="item-name-en">King Pork cutlet with motikata potatoes</span><span class="item-weight">450г</span></div><div class="item-price"><span class="price-eur">15,30€</span><span class="price-bgn">29,92 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Сменка / Bacon</span><span class="item-weight">300г</span></div><div class="item-price"><span class="price-eur">9,20€</span><span class="price-bgn">17,99 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Свински мариновани ребра</span><span class="item-name-en">Marinated pork ribs</span><span class="item-weight">300г</span></div><div class="item-price"><span class="price-eur">9,20€</span><span class="price-bgn">17,99 лв</span></div></div>
+          </div>
+          <div>
+            <div class="item"><div><span class="item-name-bg">Свински бон филе с мотишки картофи</span><span class="item-name-en">Pork fillet with motikata potatoes</span><span class="item-weight">450г</span></div><div class="item-price"><span class="price-eur">14,80€</span><span class="price-bgn">28,95 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Домашен свински сугджук</span><span class="item-name-en">Homemade pork sausage</span><span class="item-weight">350г</span></div><div class="item-price"><span class="price-eur">9,20€</span><span class="price-bgn">17,99 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Свински шишчета / Pork shish</span><span class="item-weight">500г</span></div><div class="item-price"><span class="price-eur">16,30€</span><span class="price-bgn">31,88 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Свински шишчета 3 бр с лютеница и пържени картофи</span><span class="item-name-en">Pork meatballs 3 pcs with lutenitsa and french fries</span><span class="item-weight">450г</span></div><div class="item-price"><span class="price-eur">8,70€</span><span class="price-bgn">17,02 лв</span></div></div>
+          </div>
+          <div>
+            <div class="item"><div><span class="item-name-bg">Кебапчета 3 бр с лютеница и пържени картофи</span><span class="item-name-en">Kebabcheta 3 pcs with lutenitsa and french fries</span><span class="item-weight">450г</span></div><div class="item-price"><span class="price-eur">8,70€</span><span class="price-bgn">17,02 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Кървавица / Blood sausage</span><span class="item-weight">350г</span></div><div class="item-price"><span class="price-eur">9,20€</span><span class="price-bgn">17,99 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Пилешка пържола / Chicken steak</span><span class="item-weight">300г</span></div><div class="item-price"><span class="price-eur">8,70€</span><span class="price-bgn">17,02 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Пилешки шишчета / Chicken shish</span><span class="item-weight">500г</span></div><div class="item-price"><span class="price-eur">15,30€</span><span class="price-bgn">31,88 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Телешки клюфтенца 3 бр с лютеница и пържени картофи</span><span class="item-name-en">Veal meatballs 3 pcs with lutenitsa and french fries</span><span class="item-weight">450г</span></div><div class="item-price"><span class="price-eur">9,20€</span><span class="price-bgn">17,99 лв</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ДЕСЕРТИ -->
+      <div class="section section-full">
+        <div class="section-title">Десерти<span class="en">Desserts</span></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0 32px;">
+          <div>
+            <div class="item"><div><span class="item-name-bg">Френска нуга ✦</span><span class="item-name-en">French nougat</span><span class="item-weight">16 бр</span></div><div class="item-price"><span class="price-eur">5,60€</span><span class="price-bgn">10,95 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Чийз кейк / Cheesecake</span><span class="item-weight">16 бр</span></div><div class="item-price"><span class="price-eur">5,60€</span><span class="price-bgn">10,95 лв</span></div></div>
+          </div>
+          <div>
+            <div class="item"><div><span class="item-name-bg">Шоколадово суфле ✦</span><span class="item-name-en">Chocolate soufflé</span><span class="item-weight">16 бр</span></div><div class="item-price"><span class="price-eur">7,60€</span><span class="price-bgn">14,86 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Крем брюле / Crème brûlée</span><span class="item-weight">16 бр</span></div><div class="item-price"><span class="price-eur">5,60€</span><span class="price-bgn">10,95 лв</span></div></div>
+          </div>
+          <div>
+            <div class="item"><div><span class="item-name-bg">Баница с локум ✦ / Sweet pastry</span><span class="item-weight">2 бр</span></div><div class="item-price"><span class="price-eur">4,50€</span><span class="price-bgn">8,80 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Джелато / Gelato</span><span class="item-weight">2 бр</span></div><div class="item-price"><span class="price-eur">5,60€</span><span class="price-bgn">10,95 лв</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- НАПИТКИ -->
+      <div class="section section-full">
+        <div class="section-title">Напитки<span class="en">Drinks</span></div>
+        <div class="drinks-grid">
+          <!-- Hot & Soft -->
+          <div>
+            <div class="subsection-title">Топли напитки • Hot Drinks</div>
+            <div class="item"><div><span class="item-name-bg">Кафе / Coffee</span></div><div class="item-price"><span class="price-eur">2,50€</span><span class="price-bgn">4,89 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Пиринска чай / Mountain tea</span><span class="item-weight">500мл</span></div><div class="item-price"><span class="price-eur">2,50€</span><span class="price-bgn">4,89 лв</span></div></div>
+            <div class="subsection-title">Безалкохолно • Soft Drinks</div>
+            <div class="item"><div><span class="item-name-bg">Boga Acqualy</span><span class="item-weight">750мл</span></div><div class="item-price"><span class="price-eur">2,10€</span><span class="price-bgn">4,11 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Кока Кола / Coca-Cola</span><span class="item-weight">330мл</span></div><div class="item-price"><span class="price-eur">2,20€</span><span class="price-bgn">4,30 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Студен чай / Ice Tea</span><span class="item-weight">330мл</span></div><div class="item-price"><span class="price-eur">2,20€</span><span class="price-bgn">4,30 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Минерална вода / Mineral water</span><span class="item-weight">330мл</span></div><div class="item-price"><span class="price-eur">1,70€</span><span class="price-bgn">3,32 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Перие / Perrier, Borjomi</span><span class="item-weight">500мл</span></div><div class="item-price"><span class="price-eur">3,50€</span><span class="price-bgn">6,85 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">San Pellegrino</span><span class="item-weight">750мл</span></div><div class="item-price"><span class="price-eur">5,10€</span><span class="price-bgn">9,97 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Red Bull</span><span class="item-weight">250мл</span></div><div class="item-price"><span class="price-eur">4,10€</span><span class="price-bgn">8,02 лв</span></div></div>
+          </div>
+          <!-- Beer & Wine -->
+          <div>
+            <div class="subsection-title">Бира • Beer</div>
+            <div class="item"><div><span class="item-name-bg">Хайникен / Heineken</span><span class="item-weight">250мл</span></div><div class="item-price"><span class="price-eur">3,00€</span><span class="price-bgn">5,87 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Хайникен / Heineken</span><span class="item-weight">400мл</span></div><div class="item-price"><span class="price-eur">3,60€</span><span class="price-bgn">7,04 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Хайникен 0.0 / Heineken 0.0</span><span class="item-weight">330мл</span></div><div class="item-price"><span class="price-eur">3,40€</span><span class="price-bgn">6,65 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Загорка / Zagorka</span><span class="item-weight">330мл</span></div><div class="item-price"><span class="price-eur">3,40€</span><span class="price-bgn">6,65 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Шоферхофер / Schöfferhofer</span><span class="item-weight">500мл</span></div><div class="item-price"><span class="price-eur">6,10€</span><span class="price-bgn">11,93 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Бернард 12 / Bernard 12</span><span class="item-weight">500мл</span></div><div class="item-price"><span class="price-eur">6,10€</span><span class="price-bgn">11,93 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Гинес кен / Guinness</span><span class="item-weight">400мл</span></div><div class="item-price"><span class="price-eur">6,10€</span><span class="price-bgn">11,93 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Пирин 75 / Pirin 75</span><span class="item-weight">330мл</span></div><div class="item-price"><span class="price-eur">3,40€</span><span class="price-bgn">6,65 лв</span></div></div>
+            <div class="subsection-title">Наливно вино • House Wine</div>
+            <div class="item"><div><span class="item-name-bg">Чаша / Glass</span><span class="item-weight">200мл</span></div><div class="item-price"><span class="price-eur">3,60€</span><span class="price-bgn">7,04 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Кана / House wine</span><span class="item-weight">500мл</span></div><div class="item-price"><span class="price-eur">8,20€</span><span class="price-bgn">16,04 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Кана / House wine</span><span class="item-weight">1Л</span></div><div class="item-price"><span class="price-eur">16,40€</span><span class="price-bgn">32,08 лв</span></div></div>
+          </div>
+          <!-- Spirits -->
+          <div>
+            <div class="subsection-title">Ракия • Rakia</div>
+            <div class="item"><div><span class="item-name-bg">Тикveш Лозова / Tikves Lozova</span><span class="item-weight">50мл</span></div><div class="item-price"><span class="price-eur">3,00€</span><span class="price-bgn">5,87 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Стралджанско мускатово</span><span class="item-weight">50мл</span></div><div class="item-price"><span class="price-eur">3,40€</span><span class="price-bgn">6,65 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Бургаска мускатова</span><span class="item-weight">50мл</span></div><div class="item-price"><span class="price-eur">2,90€</span><span class="price-bgn">5,67 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Троянска сливова / Troyan Matured</span><span class="item-weight">50мл</span></div><div class="item-price"><span class="price-eur">2,90€</span><span class="price-bgn">5,67 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Бургас 63</span><span class="item-weight">50мл</span></div><div class="item-price"><span class="price-eur">3,40€</span><span class="price-bgn">6,65 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Бургас 63 барел / BARREL</span><span class="item-weight">50мл</span></div><div class="item-price"><span class="price-eur">4,10€</span><span class="price-bgn">8,02 лв</span></div></div>
+            <div class="subsection-title">Водка / Уиски / Джин</div>
+            <div class="item"><div><span class="item-name-bg">Финландия / Finlandia</span><span class="item-weight">50мл</span></div><div class="item-price"><span class="price-eur">3,30€</span><span class="price-bgn">6,45 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Джеймисън / Jameson</span><span class="item-weight">50мл</span></div><div class="item-price"><span class="price-eur">3,90€</span><span class="price-bgn">7,63 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Джак Даниелс / Jack Daniels</span><span class="item-weight">50мл</span></div><div class="item-price"><span class="price-eur">4,40€</span><span class="price-bgn">8,61 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Гленфидих 12 год.</span><span class="item-weight">50мл</span></div><div class="item-price"><span class="price-eur">6,10€</span><span class="price-bgn">11,93 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Гордъс / Gordon's</span><span class="item-weight">50мл</span></div><div class="item-price"><span class="price-eur">3,60€</span><span class="price-bgn">7,04 лв</span></div></div>
+            <div class="item"><div><span class="item-name-bg">Хендрикс / Hendrick's</span><span class="item-weight">50мл</span></div><div class="item-price"><span class="price-eur">7,10€</span><span class="price-bgn">13,89 лв</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="legend-box">
+        <div class="legend-title">Алергени • Allergens</div>
+        <div class="legend-text">
+          ✦ Продуктите маркирани с ✦ съдържат алергени. Моля, информирайте нашия персонал за вашите алергии и непоносимости.<br>
+          <em>Products marked with ✦ contain allergens. Please inform our staff about your allergies and intolerances.</em><br><br>
+          * 1 Зърнени храни / Cereals &nbsp;|&nbsp; * 2 Ракообразни / Crustaceans &nbsp;|&nbsp; * 3 Яйца / Eggs &nbsp;|&nbsp; * 4 Риба / Fish &nbsp;|&nbsp; * 5 Фъстъци / Peanuts &nbsp;|&nbsp; * 6 Соя / Soya &nbsp;|&nbsp; * 7 Мляко / Milk &nbsp;|&nbsp; * 8 Ядки / Nuts &nbsp;|&nbsp; * 9 Целина / Celery &nbsp;|&nbsp; * 10 Синап / Mustard &nbsp;|&nbsp; * 11 Сусам / Sesame &nbsp;|&nbsp; * 12 Лупина / Lupin &nbsp;|&nbsp; * 13 Мекотели / Molluscs &nbsp;|&nbsp; * 14 Серен диоксид / Sulfur dioxide
+        </div>
+      </div>
+
+      <div class="footer-note" style="grid-column:1/-1;">
+        За различните гарнитури, които предлагаме, моля попитайте нашия обслужващ персонал.<br>
+        <em>Please ask your waiter for the different side garnishes available.</em><br><br>
+        Ресторант Мотиката • ул. Пирин, Банско • тел: 0898 43 43 44 • Отворено: Вт–Нд 12:00–00:00
+      </div>
+
+    </div><!-- /menu-grid -->
+
+  </div><!-- /border-frame-inner -->
+  </div><!-- /border-frame -->
+</div><!-- /page-wrapper -->
+</body>
+</html>
